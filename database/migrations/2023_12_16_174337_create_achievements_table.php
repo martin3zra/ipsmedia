@@ -17,7 +17,7 @@ return new class extends Migration
             $table->foreignId('user_id')->constrained();
             $table->enum('type', [
                 EventType::lessonWatched->value,
-                EventType::CommentWritten->value,
+                EventType::commentWritten->value,
             ]);
             $table->integer('value');
             $table->timestamps();
