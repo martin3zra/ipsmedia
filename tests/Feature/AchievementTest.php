@@ -2,6 +2,7 @@
 
 namespace Tests\Feature;
 
+use App\Enums\EventType;
 use App\Events\LessonWatched;
 use App\Models\Achievement;
 use App\Models\Lesson;
@@ -47,7 +48,7 @@ class AchievementTest extends TestCase
 
         $this->assertDatabaseHas(Achievement::class, [
             'user_id' => $user->id,
-            'type' => 'lessonWatched',
+            'type' => EventType::lessonWatched->value,
             'value' => 5,
         ]);
     }

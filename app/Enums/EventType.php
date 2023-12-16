@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Support;
+namespace App\Enums;
 
 enum EventType: string
 {
