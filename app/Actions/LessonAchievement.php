@@ -19,28 +19,17 @@ class LessonAchievement
 
         $this->lesson->markLessonWasWatchedBy(user: $this->user);
 
-        $value = $this->resolveAchievement(user: $this->user);
-        if ($value === null) {
+        $lessonWatched = $this->user->watched()->count();
+        $achievements = [1, 5, 10, 25, 50];
+
+        if (! in_array($lessonWatched, $achievements)) {
             return;
         }
 
-        $this->user->achievements()->create([
-            'value' => $value,
-            'type' => EventType::lessonWatched->value,
-        ]);
+        $recorder = new AchievementRecorder(user: $this->user);
+        $recorder->record(
+            eventType: EventType::lessonWatched,
+            achiviement: $lessonWatched,
+        );
     }
-
-    private function resolveAchievement(User $user): ?int
-    {
-        $lessonWatched = $user->watched()->count();
-        $achievements = [1, 5, 10, 25, 50];
-
-        if (in_array($lessonWatched, $achievements)) {
-
-            return $lessonWatched;
-        }
-
-        return null;
-    }
-
 }
