@@ -17,4 +17,19 @@ class Lesson extends Model
     protected $fillable = [
         'title'
     ];
+
+    /**
+     * The users that has access to the lesson.
+     */
+    public function users()
+    {
+        return $this->belongsToMany(User::class);
+    }
+
+    public function markLessonWasWatchedBy(User $user): void
+    {
+        $this->users()->attach([$user->id => [
+            'watched' => true,
+        ]]);
+    }
 }
