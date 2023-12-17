@@ -5,6 +5,7 @@ namespace App\Actions;
 use App\Models\Lesson;
 use App\Models\User;
 use App\Enums\EventType;
+use App\Models\Achievement;
 
 class LessonAchievement
 {
@@ -18,16 +19,17 @@ class LessonAchievement
     {
 
         $lessonWatched = $this->user->watched()->count();
-        $achievements = [1, 5, 10, 25, 50];
 
-        if (! in_array($lessonWatched, $achievements)) {
+        $achievement = Achievement::query()
+            ->where('type', EventType::lessonWatched->value)
+            ->where('qty', $lessonWatched)
+            ->first();
+
+        if ($achievement === null) {
             return;
         }
 
         $recorder = new AchievementRecorder(user: $this->user);
-        $recorder->record(
-            eventType: EventType::lessonWatched,
-            achiviement: $lessonWatched,
-        );
+        $recorder->record(achiviement: $achievement);
     }
 }

@@ -3,6 +3,7 @@
 namespace App\Actions;
 
 use App\Enums\EventType;
+use App\Models\Achievement;
 use App\Models\Comment;
 
 class CommentAchievement
@@ -15,16 +16,16 @@ class CommentAchievement
     {
         $user = $this->comment->user;
         $commentWritten = $user->comments()->count();
-        $achievements = [1, 3, 5, 10, 20];
+        $achievement = Achievement::query()
+            ->where('type', EventType::commentWritten->value)
+            ->where('qty', $commentWritten)
+            ->first();
 
-        if (! in_array($commentWritten, $achievements)) {
+        if ($achievement === null) {
             return;
         }
 
         $recorder = new AchievementRecorder(user: $user);
-        $recorder->record(
-            eventType: EventType::commentWritten,
-            achiviement: $commentWritten,
-        );
+        $recorder->record(achiviement: $achievement);
     }
 }

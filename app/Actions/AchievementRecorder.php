@@ -4,6 +4,7 @@ namespace App\Actions;
 
 use App\Enums\EventType;
 use App\Events\AchievementUnlocked;
+use App\Models\Achievement;
 use App\Models\User;
 
 class AchievementRecorder
@@ -12,14 +13,12 @@ class AchievementRecorder
     {
     }
 
-    public function record(EventType $eventType, int $achiviement): void
+    public function record(Achievement $achiviement): void
     {
-        $this->user->achievements()->create([
-            'value' => $achiviement,
-            'type' => $eventType->value,
-        ]);
+        $this->user->achievements()->attach([$achiviement->id => [
+            'type' => $achiviement->type,
+        ]]);
 
-        $achievementName = $eventType->resolveAchievementName($achiviement);
-        AchievementUnlocked::dispatch($achievementName, $this->user);
+        AchievementUnlocked::dispatch($achiviement->name, $this->user);
     }
 }
