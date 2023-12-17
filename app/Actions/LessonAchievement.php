@@ -17,8 +17,6 @@ class LessonAchievement
     public function execute(): void
     {
 
-        $this->lesson->markLessonWasWatchedBy(user: $this->user);
-
         $lessonWatched = $this->user->watched()->count();
         $achievements = [1, 5, 10, 25, 50];
 

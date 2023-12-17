@@ -3,7 +3,6 @@
 namespace Tests\Feature;
 
 use App\Enums\EventType;
-use App\Events\CommentWritten;
 use App\Models\Achievement;
 use App\Models\Comment;
 use App\Models\User;
@@ -16,11 +15,8 @@ class CommentsWrittenAchievementsTest extends TestCase
 
     public function test_listen_comment_written_and_unlock_first_achievement(): void
     {
-        // Arrange
+        // Arrange && Act
         $comment = Comment::factory()->create();
-
-        // Act
-        CommentWritten::dispatch($comment);
 
         //Assert
         $this->assertDatabaseHas(Achievement::class, [
@@ -30,7 +26,7 @@ class CommentsWrittenAchievementsTest extends TestCase
         ]);
     }
 
-    public function test_listen_watched_lesson_and_unlock_remaining_achievements(): void
+    public function test_listen_comment_written_and_unlock_remaining_achievements(): void
     {
         // Arrange
         $user = User::factory()->create();
@@ -67,13 +63,9 @@ class CommentsWrittenAchievementsTest extends TestCase
 
     private function writeComments(User $user, int $times = 1): void
     {
-        // to simulate multiple comments as each one need to be evaluated immediately
-        for ($i=0; $i < $times; $i++) {
-            $comment = Comment::factory()
-                ->for($user)
-                ->create();
-
-            CommentWritten::dispatch($comment);
-        }
+        Comment::factory()
+            ->count($times)
+            ->for($user)
+            ->create();
     }
 }

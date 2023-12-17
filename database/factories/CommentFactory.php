@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Events\CommentWritten;
 use App\Models\User;
 use App\Models\Comment;
 use Illuminate\Database\Eloquent\Factories\Factory;

@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Events\LessonWatched;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -31,5 +32,7 @@ class Lesson extends Model
         $this->users()->attach([$user->id => [
             'watched' => true,
         ]]);
+
+        LessonWatched::dispatch($this, $user);
     }
 }

@@ -3,9 +3,7 @@
 namespace App\Actions;
 
 use App\Enums\EventType;
-use App\Events\AchievementUnlocked;
 use App\Models\Comment;
-use App\Models\User;
 
 class CommentAchievement
 {

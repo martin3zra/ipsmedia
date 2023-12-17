@@ -17,11 +17,11 @@ class LessonsWatchedAchievementsTest extends TestCase
     public function test_listen_watched_lesson_and_unlock_first_achievement(): void
     {
         // Arrange
-        $lesson = Lesson::factory()->create();
         $user = User::factory()->create();
+        $lesson = Lesson::factory()->create();
 
         // Act
-        LessonWatched::dispatch($lesson, $user);
+        $lesson->markLessonWasWatchedBy(user: $user);
 
         //Assert
         $this->assertDatabaseHas(Achievement::class, [
@@ -57,7 +57,7 @@ class LessonsWatchedAchievementsTest extends TestCase
     {
         $lessons = Lesson::factory()->times($times)->create();
         $lessons->each(function ($lesson) use ($user) {
-            LessonWatched::dispatch($lesson, $user);
+            $lesson->markLessonWasWatchedBy(user: $user);
         });
     }
 }
