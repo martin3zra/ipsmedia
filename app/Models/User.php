@@ -6,7 +6,6 @@ namespace App\Models;
 
 use App\Enums\EventType;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
@@ -108,7 +107,7 @@ class User extends Authenticatable
             ->withTimestamps();
     }
 
-    public function latestBadge(): Badge
+    public function latestBadge()
     {
         $badge = $this->belongsToMany(Badge::class)
             ->orderBy('id', 'desc')
