@@ -2,12 +2,14 @@
 
 namespace Tests\Feature;
 
+use App\Events\BadgeUnlocked;
 use App\Models\Achievement;
 use App\Models\Comment;
 use App\Models\Lesson;
 use App\Models\User;
 use Database\Seeders\AchievementSeeder;
 use Database\Seeders\BadgeSeeder;
+use Illuminate\Support\Facades\Event;
 use Tests\TestCase;
 
 class UnlockBadgeTest extends TestCase
@@ -82,7 +84,6 @@ class UnlockBadgeTest extends TestCase
         $this->assertEquals(10, $user->fresh()->achievements()->count());
         $this->assertEquals(3, $user->fresh()->badges()->count());
         $this->assertEquals('Master', $user->latestBadge()->name);
-        // dd($user->latestBadge());
     }
 
     private function writeComments(User $user, int $times = 1): void

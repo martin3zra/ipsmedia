@@ -3,6 +3,7 @@
 namespace App\Listeners;
 
 use App\Events\AchievementUnlocked;
+use App\Events\BadgeUnlocked;
 use App\Models\Badge;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Queue\InteractsWithQueue;
@@ -29,5 +30,7 @@ class ProcessAchievementUnlocked
         }
 
         $event->user->badges()->attach($badge);
+
+        BadgeUnlocked::dispatch($badge->name, $event->user);
     }
 }
